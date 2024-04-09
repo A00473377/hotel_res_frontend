@@ -30,6 +30,7 @@ public class HotelsListFragment extends Fragment implements ItemClickListener {
     TextView headingTextView;
     ProgressBar progressBar;
     List<HotelListData> userListResponseData;
+    String numberOfGuests;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,7 +50,7 @@ public class HotelsListFragment extends Fragment implements ItemClickListener {
 
         String checkInDate = getArguments().getString("check in date");
         String checkOutDate = getArguments().getString("check out date");
-        String numberOfGuests = getArguments().getString("number of guests");
+        numberOfGuests = getArguments().getString("number of guests");
 
         // Log received data
         Log.d("HotelsListFragment", "Received Data - CheckIn: " + checkInDate + ", CheckOut: " + checkOutDate + ", Guests: " + numberOfGuests);
@@ -150,6 +151,7 @@ public class HotelsListFragment extends Fragment implements ItemClickListener {
         bundle.putString("hotel name", hotelName);
         bundle.putString("hotel price", price);
         bundle.putString("hotel availability", availability);
+        bundle.putString("number of guests",numberOfGuests);
 
         HotelGuestDetailsFragment hotelGuestDetailsFragment = new HotelGuestDetailsFragment();
         hotelGuestDetailsFragment.setArguments(bundle);
