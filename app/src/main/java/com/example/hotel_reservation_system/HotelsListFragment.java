@@ -58,12 +58,19 @@ public class HotelsListFragment extends Fragment implements ItemClickListener {
                 " to " + checkOutDate);
 
 
+//comment these lines when using getHotelslistsData method
         // Set up the RecyclerView
-        ArrayList<HotelListData> hotelListData = initHotelListData();
+        //ArrayList<HotelListData> hotelListData = initHotelListData();
+        //we need to delete below when we will implement API.
+        userListResponseData = initHotelListData();
         RecyclerView recyclerView = view.findViewById(R.id.hotel_list_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        HotelListAdapter hotelListAdapter = new HotelListAdapter(getActivity(), hotelListData);
+        HotelListAdapter hotelListAdapter = new HotelListAdapter(getActivity(), userListResponseData);
         recyclerView.setAdapter(hotelListAdapter);
+        //Bind the click listener
+        hotelListAdapter.setClickListener(this);
+
+        //commment till here
 //        getHotelsListsData();
     }
 
@@ -78,6 +85,16 @@ public class HotelsListFragment extends Fragment implements ItemClickListener {
         list.add(new HotelListData("Hotel Pearl", "500$", "false"));
         list.add(new HotelListData("Hotel Amano", "800$", "true"));
         list.add(new HotelListData("San Jones", "250$", "false"));
+        list.add(new HotelListData("Hotel XYZ", "1200$", "true"));
+        list.add(new HotelListData("Luxury Hotel", "1500$", "false"));
+        list.add(new HotelListData("Beach Resort", "1800$", "true"));
+        list.add(new HotelListData("City Hotel", "1000$", "false"));
+        list.add(new HotelListData("Mountain Lodge", "800$", "true"));
+        list.add(new HotelListData("Hotel 123", "2000$", "false"));
+        list.add(new HotelListData("Seaside Inn", "1600$", "true"));
+        list.add(new HotelListData("Downtown Hotel", "1400$", "false"));
+        list.add(new HotelListData("Riverfront Resort", "1700$", "true"));
+        list.add(new HotelListData("Country Retreat", "900$", "false"));
 
         Log.d("HotelsListFragment", "Hotel data initialized. Size: " + list.size());
         return list;
@@ -119,11 +136,15 @@ public class HotelsListFragment extends Fragment implements ItemClickListener {
 
     @Override
     public void onClick(View view, int position) {
+        Log.d("HotelsListFragment", "onClick received for position: " + position);
         HotelListData hotelListData = userListResponseData.get(position);
 
         String hotelName = hotelListData.getHotel_name();
         String price = hotelListData.getPrice();
         String availability = hotelListData.getAvailability();
+
+        Log.d("HotelsListFragment", "Preparing to send data to HotelGuestDetailsFragment");
+
 
         Bundle bundle = new Bundle();
         bundle.putString("hotel name", hotelName);
@@ -133,11 +154,12 @@ public class HotelsListFragment extends Fragment implements ItemClickListener {
         HotelGuestDetailsFragment hotelGuestDetailsFragment = new HotelGuestDetailsFragment();
         hotelGuestDetailsFragment.setArguments(bundle);
 
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getParentFragmentManager().beginTransaction();
         fragmentTransaction.remove(HotelsListFragment.this);
-        fragmentTransaction.replace(R.id.main_layout, hotelGuestDetailsFragment);
+        fragmentTransaction.replace(R.id.frame_layout, hotelGuestDetailsFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commitAllowingStateLoss();
 
+        Log.d("HotelsListFragment", "Transaction committed to HotelGuestDetailsFragment");
     }
 }

@@ -1,6 +1,7 @@
 package com.example.hotel_reservation_system;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,6 +77,7 @@ public class HotelListAdapter extends RecyclerView.Adapter<HotelListAdapter.View
         @Override
         public void onClick(View view) {
             if (clickListener != null)
+                Log.d("HotelListAdapter", "Item clicked at position: " + getAbsoluteAdapterPosition());
                 clickListener.onClick(view, getAbsoluteAdapterPosition());
         }
     }
