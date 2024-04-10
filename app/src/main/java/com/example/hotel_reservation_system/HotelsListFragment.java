@@ -17,12 +17,19 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.hotel_reservation_system.models.FilterRequest;
+import com.example.hotel_reservation_system.models.Hotel;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+//import retrofit.Callback;
+//import retrofit.RetrofitError;
+//import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HotelsListFragment extends Fragment implements ItemClickListener {
 
@@ -72,7 +79,7 @@ public class HotelsListFragment extends Fragment implements ItemClickListener {
         hotelListAdapter.setClickListener(this);
 
         //commment till here
-//        getHotelsListsData();
+        getHotelsListsData();
     }
 
     public ArrayList<HotelListData> initHotelListData() {
@@ -102,39 +109,95 @@ public class HotelsListFragment extends Fragment implements ItemClickListener {
     }
 
     private void getHotelsListsData() {
-        progressBar.setVisibility(View.VISIBLE);
-        Api.getClient().getHotelsLists(new Callback<List<HotelListData>>() {
+        progressBar.setVisibility(View.VISIBLE); // Show progress bar when the request starts
+        Log.d("Inside methos","Inside method");
+        // Create an instance of the API service
+        ApiInterface apiService = Api.getClient().create(ApiInterface.class);
+
+        // Prepare your request parameters
+        String startDate = "2024-04-01T12:00:00Z";
+        String endDate = "2024-04-10T12:00:00Z";
+        FilterRequest request = new FilterRequest(startDate, endDate);
+
+        // Make the API call
+        Call<List<Hotel>> call = apiService.filterHotels(request);
+        call.enqueue(new Callback<List<Hotel>>() {
             @Override
-            public void success(List<HotelListData> userListResponses, Response response) {
-                // in this method we will get the response from API
-                userListResponseData = userListResponses;
-
-
-                // Set up the RecyclerView
-                setupRecyclerView();
+            public void onResponse(Call<List<Hotel>> call, Response<List<Hotel>> response) {
+                progressBar.setVisibility(View.GONE); // Hide progress bar on response
+                if (response.isSuccessful()) {
+                    List<Hotel> hotels = response.body(); // This is safe, response is typed
+                    System.out.println(response);
+                    Log.d(String.valueOf(response),"API responSe");
+                    // Process the list of hotels here
+                } else {
+                    Log.d(String.valueOf(response),"API responSe");
+                    // Handle request errors depending on error response code
+                }
             }
 
             @Override
-            public void failure(RetrofitError error) {
-                // if error occurs in network transaction then we can get the error in this method.
-                Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
-
+            public void onFailure(Call<List<Hotel>> call, Throwable t) {
+                progressBar.setVisibility(View.GONE); // Hide progress bar on failure
+                Log.d(String.valueOf(t),"API responSe");
+                // Handle failure, such as a network error
             }
         });
     }
 
-    private void setupRecyclerView() {
-        progressBar.setVisibility(View.GONE);
-        RecyclerView recyclerView = view.findViewById(R.id.hotel_list_recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        HotelListAdapter hotelListAdapter = new HotelListAdapter(getActivity(), userListResponseData);
-        recyclerView.setAdapter(hotelListAdapter);
-
-        //Bind the click listener
-        hotelListAdapter.setClickListener(this);
-    }
-
-
+//
+//    private void getHotelsListsData() {
+//        progressBar.setVisibility(View.VISIBLE);
+////        Api.getClient().getHotelsLists(new Callback<List<HotelListData>>() {
+//
+//        //Trying API
+//        ApiInterface apiService = Api.getClient().create(ApiInterface.class);
+//        String startDate = "2024-04-01T12:00:00Z";
+//        String endDate ="2024-04-10T12:00:00Z";
+//        FilterRequest request = new FilterRequest(startDate, endDate);
+//        Call<List<Hotel>> call = apiService.filterHotels((retrofit.Callback<List<Hotel>>) request);
+//        call.enqueue(new Callback<List<Hotel>>() {
+//            @Override
+//            public void onResponse(Call<List<Hotel>> call, Response response) {
+//                if (response.isSuccessful()) {
+//                    List<Hotel> hotels = response.body();
+//                    // Process the list of hotels
+//                } else {
+//                    // Handle request errors depending on error response code
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Hotel>> call, Throwable t) {
+//                // Handle failure, such as a network error
+//            }
+////        });
+////        Api.getClient().filterHotels(new Callback<List<Hotel>>() {
+////
+////            @Override
+////            public void success(List<Hotel> hotels, Response response) {
+////                System.out.println(response);
+////            }
+////
+////            @Override
+////            public void failure(RetrofitError error) {
+////
+////            }
+////        });
+//    }
+//
+//    private void setupRecyclerView() {
+//        progressBar.setVisibility(View.GONE);
+//        RecyclerView recyclerView = view.findViewById(R.id.hotel_list_recyclerView);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        HotelListAdapter hotelListAdapter = new HotelListAdapter(getActivity(), userListResponseData);
+//        recyclerView.setAdapter(hotelListAdapter);
+//
+//        //Bind the click listener
+//        hotelListAdapter.setClickListener(this);
+//    }
+//
+//
     @Override
     public void onClick(View view, int position) {
         Log.d("HotelsListFragment", "onClick received for position: " + position);
@@ -164,4 +227,6 @@ public class HotelsListFragment extends Fragment implements ItemClickListener {
 
         Log.d("HotelsListFragment", "Transaction committed to HotelGuestDetailsFragment");
     }
+
+
 }
