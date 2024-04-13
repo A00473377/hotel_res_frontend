@@ -1,14 +1,28 @@
 package com.example.hotel_reservation_system;
 
 public class GuestDetail {
-    private String name;
-    private String gender;
+    private String guestName;
+    private String guestGender;
 
-    public GuestDetail(String name, String gender) {
-        this.name = name;
-        this.gender = gender;
+    public GuestDetail(String guestName, String guestGender) {
+        this.guestName = guestName;
+        this.guestGender = guestGender;
     }
 
-    // Getter and Setter methods
+    public String getGuestName() {
+        return guestName;
+    }
+
+    public void setGuestName(String guestName) {
+        this.guestName = guestName;
+    }
+
+    public String getGuestGender() {
+        return guestGender;
+    }
+
+    public void setGuestGender(String guestGender) {
+        this.guestGender = guestGender;
+    }
 }
 
