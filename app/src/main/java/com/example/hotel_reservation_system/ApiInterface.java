@@ -1,10 +1,12 @@
 package com.example.hotel_reservation_system;
 
+import com.example.hotel_reservation_system.models.CreateReservationDTO;
 import com.example.hotel_reservation_system.models.FilterRequest;
 import com.example.hotel_reservation_system.models.Hotel;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.http.Body;
@@ -26,8 +28,8 @@ public interface ApiInterface {
 
 //    ApiInterface create(Class<ApiInterface> apiInterfaceClass);
 //
-//    @POST("reservation")
-//    Call<ReservationResponse> makeReservation(@Body ReservationRequest reservationRequest);
+    @POST("reservation")
+    Call<ResponseBody> makeReservation(@Body CreateReservationDTO reservationRequest);
 //
 //    @GET("getHotelById")
 //    Call<Hotel> getHotelById(@Query("id") String id);
