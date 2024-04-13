@@ -19,12 +19,17 @@ public class BookingConfirmationFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.booking_confirmation_fragment, container, false);
 
-        TextView confirmationMessage = view.findViewById(R.id.confirmationMessage);
+//        TextView confirmationMessage = view.findViewById(R.id.confirmationMessage);
         TextView bookingIdText = view.findViewById(R.id.bookingId);
 
 //        // Retrieve and display booking ID
         String bookingId = getArguments().getString("bookingId", "N/A");
-        bookingIdText.setText("Booking ID: " + bookingId);
+
+        if(bookingId.contains("N/A")) {
+            bookingIdText.setText("Booking in Progress! Will be notified once done!");
+        }else{
+            bookingIdText.setText("Booking Confirmed! Thank you!");
+        }
 
         Button restartButton = view.findViewById(R.id.restartButton);
         restartButton.setOnClickListener(new View.OnClickListener() {

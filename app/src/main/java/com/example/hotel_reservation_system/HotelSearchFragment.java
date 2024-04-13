@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Objects;
 
 public class HotelSearchFragment extends Fragment {
 
@@ -78,6 +79,11 @@ public class HotelSearchFragment extends Fragment {
                 checkInDate = getDateFromCalendar(checkInDatePicker);
                 checkOutDate = getDateFromCalendar(checkOutDatePicker);
                 //Get input of guests count
+//                if(guestsCountEditText.getText().toString() != null && Objects.equals(guestsCountEditText.getText().toString(),'0')){
+//                    throw new IllegalArgumentException("Guest name cannot be empty.");
+//                }else {
+//                    numberOfGuests = guestsCountEditText.getText().toString();
+//                }
                 numberOfGuests = guestsCountEditText.getText().toString();
                 guestName = nameEditText.getText().toString();
 
@@ -165,21 +171,5 @@ public class HotelSearchFragment extends Fragment {
 
         return formattedDate;
     }
-
-
-    // Function to get the date object
-//    private String getDateFromCalendar(){
-//        int day = checkInDatePicker.getDayOfMonth();
-//        int month = checkInDatePicker.getMonth();
-//        int year = checkInDatePicker.getYear();
-//
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.set(year,month,day);
-//
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
-//        String formattedDate = simpleDateFormat.format(calendar.getTime());
-//
-//        return formattedDate;
-//    }
 
 }

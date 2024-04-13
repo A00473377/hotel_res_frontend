@@ -120,6 +120,7 @@ public class HotelGuestDetailsFragment extends Fragment {
                 //progressBar.setVisibility(View.GONE); // Hide progress bar on response
                 if (response.isSuccessful() && response.body() != null) {
                     bookingResponse = String.valueOf(response.body());
+
                     Log.d(String.valueOf(response),"API responSe");
 
                     //moving code to on response only.

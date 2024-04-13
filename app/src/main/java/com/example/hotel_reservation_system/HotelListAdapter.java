@@ -42,8 +42,12 @@ public class HotelListAdapter extends RecyclerView.Adapter<HotelListAdapter.View
 
         // set up the text
         holder.hotelName.setText(hotelName);
-        holder.hotelAvailability.setText(hotelAvailability);
-        holder.hotelPrice.setText(hotelPrice);
+        if(hotelAvailability.equals("true")) {
+            holder.hotelAvailability.setText("AVL");
+        }else{
+            holder.hotelAvailability.setText("NA");
+        }
+        holder.hotelPrice.setText(hotelPrice+" $");
     }
 
     @Override

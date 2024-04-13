@@ -25,6 +25,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Api {
 
     private static final String BASE_URL = "http://10.0.2.2:8080/api/";
+//    private static final String BASE_URL = "http://hotelresback-env.eba-phaqewbu.us-east-1.elasticbeanstalk.com/api/";
+
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient() {
